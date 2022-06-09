@@ -17,8 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::middleware('auth')->group(function() {
+    Route::get('/dashboard', App\Http\Controllers\DashboardController::class)
+        ->name('dashboard');
+    Route::get('products', [App\Http\Controllers\ProductController::class, 'index'])
+        ->name('products.index');
+    Route::post('products/{product}/promote', App\Http\Controllers\PromoteProductController::class)
+        ->name('products.promote');
+    Route::get('product-approval', [App\Http\Controllers\ProductApprovalController::class, 'index'])
+        ->name('product-approval.index');
+    Route::post('product-approval/{product}/status', [App\Http\Controllers\ProductApprovalController::class, 'changeStatus'])
+        ->name('product-approval.status');
+});
 
 require __DIR__.'/auth.php';
