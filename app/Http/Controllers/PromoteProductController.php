@@ -17,6 +17,13 @@ class PromoteProductController extends Controller
             ]);
         }
 
+        // Ensure user cannot request same product promotion twice
+        if($request->user()->products()->where('product_id', $product->id)->exists()) {
+            throw ValidationException::withMessages([
+                'message' => 'You are already promoting this product'
+            ]);
+        }
+
         $request->user()->products()->attach($product);
 
         return back()->with('success', 'Product submitted for promotion. Admin will review your request.');
