@@ -13,11 +13,13 @@
                         <x-product-list heading="Approved Products">
                             @foreach($approvedProducts as $product)
                             <x-product :product="$product">
-                            <form action="{{ route('transactions.store')}}" method="post">
-                                @csrf
-                                <input type="hidden" value="{{ $product->id }}" name="product_id" />
-                                <x-button >Checkout</x-button>
-                            </form>
+                                @if($product->inStock())
+                                <form action="{{ route('transactions.store')}}" method="post">
+                                    @csrf
+                                    <input type="hidden" value="{{ $product->id }}" name="product_id" />
+                                    <x-button >Checkout</x-button>
+                                </form>
+                                @endif
                             </x-product>
                             @endforeach
                         </x-product-list>

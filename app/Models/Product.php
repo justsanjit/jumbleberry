@@ -37,6 +37,11 @@ class Product extends Model
         return $query->where('monthly_inventory', '>', 0);
     }
 
+    public function inStock(): bool
+    {
+        return $this->monthly_inventory > 0;
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class);

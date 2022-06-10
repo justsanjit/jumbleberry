@@ -9,6 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="bg-white">
+                    @if ($products->isNotEmpty())
                     <x-product-list>
                         @foreach($products as $product)
                             <x-product :product="$product">
@@ -19,6 +20,9 @@
                             </x-product>
                         @endforeach
                     </x-product-list>
+                    @else
+                        <div class="p-16 text-center text-2xl">Oups, Not items found in catalog.</div>
+                    @endif
                 </div>
             </div>
         </div>
