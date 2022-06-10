@@ -24,7 +24,8 @@
                     </x-nav-link>
                     @endCan
                     <x-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.index')">
-                        {{ __('Notifications') }}
+                        {{ __('Notifications') }} &nbsp;
+                        <span class="@if($unreadNotificationCount <= 0)hidden @endif notification-count inline-flex  items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">Unread</span>
                     </x-nav-link>
                 </div>
             </div>
@@ -86,7 +87,8 @@
             </x-responsive-nav-link>
             @endCan
             <x-responsive-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.index')">
-                {{ __('Notifications') }}
+                {{ __('Notifications') }} &nbsp;
+                <span class="notification-count @if($unreadNotificationCount <= 0)hidden @endif inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-pink-100 text-pink-800">Unread</span>
             </x-responsive-nav-link>
         </div>
 

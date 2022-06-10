@@ -14,12 +14,23 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+
+        <script>
+            Echo.private(`App.Models.User.{{ \Auth::id() }}`)
+                .notification((notification) => {
+                    console.log(notification)
+                    const elements = document.getElementsByClassName('notification-count');
+                    console.log(elements);
+                    for (var i = 0, len = elements.length; i < len; i++) {
+                        elements[i].classList.toggle('hidden');
+                    }
+                });
+        </script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
-
 
             <!-- Page Content -->
             @if($errors->any())

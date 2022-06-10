@@ -12,11 +12,13 @@
                     @if ($products->isNotEmpty())
                     <x-product-list>
                         @foreach($products as $product)
-                            <x-product :product="$product">
+                        <x-product :product="$product">
+                                @if ($product->status === \App\Enums\ProductStatus::ACTIVE)
                                 <form action="{{ route('products.promote', $product)}}" method="post">
                                     @csrf
                                     <x-button>Promote</x-button>
                                 </form>
+                                @endif
                             </x-product>
                         @endforeach
                     </x-product-list>
