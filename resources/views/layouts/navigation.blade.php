@@ -23,6 +23,9 @@
                         {{ __('Manage Approvals') }}
                     </x-nav-link>
                     @endCan
+                    <x-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.index')">
+                        {{ __('Notifications') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -82,6 +85,9 @@
                 {{ __('Approve Products') }}
             </x-responsive-nav-link>
             @endCan
+            <x-responsive-nav-link :href="route('notifications.index')" :active="request()->routeIs('notifications.index')">
+                {{ __('Notifications') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

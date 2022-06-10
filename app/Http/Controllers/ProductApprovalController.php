@@ -6,8 +6,11 @@ use App\Enums\ApprovalStatus;
 use App\Enums\ProductStatus;
 use App\Models\Product;
 use App\Models\User;
+use App\Notifications\ProductApprovedNotification;
+use App\Notifications\ProductRejectedNotification;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 
 class ProductApprovalController extends Controller
@@ -29,12 +32,11 @@ class ProductApprovalController extends Controller
         ]);
     }
 
-    public function changeStatus(Product $product, Request $request)
+    public function changeStatus(Product $product, User $user, Request $request)
     {
         $this->authorize('manage_approvals');
 
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'status' => 'required|in:approved,rejected'
         ]);
 
@@ -44,30 +46,15 @@ class ProductApprovalController extends Controller
             ]);
         }
 
-        $product->users()->updateExistingPivot($request->user_id, [
+        $product->users()->updateExistingPivot($user, [
             'status' => $request->status
         ]);
 
-        return back();
-    }
+        $notification = $request->status === 'approved'
+            ? new ProductApprovedNotification($product)
+            : new ProductRejectedNotification($product);
 
-    public function decline(Product $product, Request $request)
-    {
-        $this->authorize('manage_approvals');
-
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-        ]);
-
-        if ($product->status !== ProductStatus::ACTIVE) {
-            throw ValidationException::withMessages([
-                'message' => 'Product is no longer active',
-            ]);
-        }
-
-        $product->users()->updateExistingPivot($request->user_id, [
-            'status' => ApprovalStatus::APPROVED->value
-        ]);
+        Notification::send($user, $notification);
 
         return back();
     }

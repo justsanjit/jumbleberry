@@ -19,6 +19,7 @@ class ProductFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'status' => $this->faker->randomElement(['active', 'on-hold', 'expired']),
+            'image_url' => $this->faker->imageUrl(),
             'monthly_inventory' => $this->faker->randomNumber(2),
         ];
     }

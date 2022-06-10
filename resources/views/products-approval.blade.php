@@ -14,15 +14,13 @@
                             @foreach($user->products as $product)
                                 <x-product :product="$product">
                                     <div class="flex space-x-4">
-                                        <form action="{{ route('product-approval.status', $product)}}" method="post">
+                                        <form action="{{ route('product-approval.status', [$product, $user])}}" method="post">
                                             @csrf
-                                            <input type="hidden" name="user_id" value="{{ $user->id }}" />
                                             <input type="hidden" name="status" value="approved" />
                                             <x-button>Approve</x-button>
                                         </form>
-                                        <form action="{{ route('product-approval.status', $product)}}" method="post">
+                                        <form action="{{ route('product-approval.status', [$product, $user])}}" method="post">
                                             @csrf
-                                            <input type="hidden" name="user_id" value="{{ $user->id }}" />
                                             <input type="hidden" name="status" value="rejected" />
                                             <x-button >Decline</x-button>
                                         </form>

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('image_url');
             $table->enum('status', ['active', 'on-hold', 'expired'])->default('on-hold');
             $table->unsignedInteger('monthly_inventory')->default(0);
             $table->timestamps();

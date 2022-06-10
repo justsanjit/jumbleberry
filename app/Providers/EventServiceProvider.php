@@ -2,10 +2,15 @@
 
 namespace App\Providers;
 
+use App\Events\ProductOutOfStock;
+use App\Events\ProductStatusChanged;
+use App\Listeners\SendProductInventoryDepletedNotification;
+use App\Listeners\SendProductStatusChangedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +23,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ProductOutOfStock::class => [
+            SendProductInventoryDepletedNotification::class
+        ],
+        ProductStatusChanged::class => [
+            SendProductStatusChangedNotification::class
+        ]
     ];
 
     /**

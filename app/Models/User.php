@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\ApprovalStatus;
+use App\Enums\ProductStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,5 +47,10 @@ class User extends Authenticatable
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+
+    public function approvedProducts()
+    {
+        return $this->products()->wherePivot('status', ApprovalStatus::APPROVED);
     }
 }
