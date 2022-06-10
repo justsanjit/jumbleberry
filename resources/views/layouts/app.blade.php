@@ -19,11 +19,9 @@
         <script>
             Echo.private(`App.Models.User.{{ \Auth::id() }}`)
                 .notification((notification) => {
-                    console.log(notification)
                     const elements = document.getElementsByClassName('notification-count');
-                    console.log(elements);
                     for (var i = 0, len = elements.length; i < len; i++) {
-                        elements[i].classList.toggle('hidden');
+                        elements[i].classList.add('hidden');
                     }
                 });
         </script>
